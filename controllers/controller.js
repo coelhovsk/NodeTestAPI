@@ -1,11 +1,6 @@
-import sampleData from "../data/sampledata"
+// controller.js
+import { sampleData } from "../data/sampledata.js";
 
-module.exports = {
-  getAllItems: () => sampleData,
-  getItemById: (id) => sampleData.find(item => item.id === parseInt(id)),
-  addItem: (newItem) => {
-    const item = { id: sampleData.length + 1, ...newItem };
-    sampleData.push(item);
-    return item;
-  }
-};
+export function getAllItems() {
+  return sampleData;
+}
