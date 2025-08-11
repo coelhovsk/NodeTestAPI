@@ -1,10 +1,10 @@
 import express from 'express'
 // server.js
 import { router as dataRoutes } from './routes/router.js';
+import cors from 'cors';
 
-
-
-const app = express()
+const app = express();
+app.use(cors()); // Libera CORS para qualquer origem
 
 app.use(express.json())
 

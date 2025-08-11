@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Consumindo API Node</title>
+</head>
+<body>
+  <h1>Itens da API</h1>
+  
+  <button onclick="getAll()">Listar todos os itens</button>
+  
+  <h2>Buscar item por ID</h2>
+  <input type="number" id="itemId" placeholder="ID">
+  <button onclick="getById()">Buscar</button>
+
+  <h2>Adicionar item</h2>
+  <input type="text" id="newName" placeholder="Nome">
+  <input type="text" id="newDesc" placeholder="Descrição">
+  <button onclick="addItem()">Adicionar</button>
+
+
+  <h2>Resultado:</h2>
+  <pre id="output"></pre>
+
+  <script>
+    // URL base da API
+    const baseUrl = 'http://localhost:3000';
+
+    // Função para exibir dados no <pre>
+    function show(data) {
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+
+    // GET /items
+    function getAll() {
+      fetch(`${baseUrl}/items`)
+        .then(res => res.json())
+        .then(show)
+        .catch(err => console.error("Erro:", err));
+    }
+
+    // GET /items/:id
+    function getById() {
+      const id = document.getElementById('itemId').value;
+      if (!id) return alert("Informe um ID");
+      fetch(`${baseUrl}/items/${id}`)
+        .then(res => res.json())
+        .then(show)
+        .catch(err => console.error("Erro:", err));
+    }
+
+    // POST /items
+    function addItem() {
+      const name = document.getElementById('newName').value;
+      const description = document.getElementById('newDesc').value;
+      if (!name || !description) return alert("Informe nome e descrição");
+      fetch(`${baseUrl}/items`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, description })
+      })
+        .then(res => res.json())
+        .then(show)
+        .catch(err => console.error("Erro:", err));
+    }
+
+  </script>
+</body>
+</html>
