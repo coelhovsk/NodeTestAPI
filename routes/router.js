@@ -1,11 +1,13 @@
 
 import { Router } from "express";
 import { getAllItems } from "../controllers/controller.js"
+import { getItemById } from "../controllers/controller.js"
+import { addItem } from "../controllers/controller.js"
 
 export const router = Router();
 
 router.get('/items', (req, res) => {
-    const items = getAllItems
+    const items = getAllItems()
     res.json(items)
 })
 
