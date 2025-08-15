@@ -3,67 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <title>Consumindo API Node</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>Itens da API</h1>
-  
-  <button onclick="getAll()">Listar todos os itens</button>
-  
-  <h2>Buscar item por ID</h2>
-  <input type="number" id="itemId" placeholder="ID">
-  <button onclick="getById()">Buscar</button>
+<body class="bg-light">
 
-  <h2>Adicionar item</h2>
-  <input type="text" id="newName" placeholder="Nome">
-  <input type="text" id="newDesc" placeholder="Descrição">
-  <button onclick="addItem()">Adicionar</button>
+  <div class="container py-4">
+    <h1 class="mb-4 text-center">Itens da API</h1>
 
+    <!-- Listar todos -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <button onclick="getAll()" class="btn btn-primary w-100">Listar todos os itens</button>
+      </div>
+    </div>
 
-  <h2>Resultado:</h2>
-  <pre id="output"></pre>
+    <!-- Buscar por ID -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5>Buscar item por ID</h5>
+        <div class="input-group">
+          <input type="number" id="itemId" class="form-control" placeholder="ID">
+          <button onclick="getById()" class="btn btn-secondary">Buscar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adicionar item -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5>Adicionar novo item</h5>
+        <input type="text" id="newName" class="form-control mb-2" placeholder="Nome">
+        <input type="text" id="newDesc" class="form-control mb-2" placeholder="Descrição">
+        <button onclick="addItem()" class="btn btn-success w-100">Adicionar</button>
+      </div>
+    </div>
+
+    <!-- Resultado em Card -->
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+        Resultado
+      </div>
+      <div class="card-body">
+        <pre id="output" class="bg-light p-3 rounded" style="min-height: 150px;"></pre>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // URL base da API
-    const baseUrl = 'http://localhost:3000';
+    const baseUrl = ''; // vazio porque o HTML está no mesmo servidor da API
 
-    // Função para exibir dados no <pre>
     function show(data) {
       document.getElementById('output').textContent = JSON.stringify(data, null, 2);
     }
 
-    // GET /items
     function getAll() {
-      fetch(`${baseUrl}/items`)
-        .then(res => res.json())
-        .then(show)
-        .catch(err => console.error("Erro:", err));
+      fetch(`/items`).then(res => res.json()).then(show);
     }
 
-    // GET /items/:id
     function getById() {
       const id = document.getElementById('itemId').value;
       if (!id) return alert("Informe um ID");
-      fetch(`${baseUrl}/items/${id}`)
-        .then(res => res.json())
-        .then(show)
-        .catch(err => console.error("Erro:", err));
+      fetch(`/items/${id}`).then(res => res.json()).then(show);
     }
 
-    // POST /items
     function addItem() {
       const name = document.getElementById('newName').value;
       const description = document.getElementById('newDesc').value;
       if (!name || !description) return alert("Informe nome e descrição");
-      fetch(`${baseUrl}/items`, {
+      fetch(`/items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, description })
-      })
-        .then(res => res.json())
-        .then(show)
-        .catch(err => console.error("Erro:", err));
+      }).then(res => res.json()).then(show);
     }
-
   </script>
 </body>
 </html>

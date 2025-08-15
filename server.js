@@ -1,15 +1,21 @@
-import express from 'express'
-// server.js
-import { router as dataRoutes } from './routes/router.js';
-import cors from 'cors';
+import express from 'express';
+import path from 'path';
+import dataRoutes from './routes/router.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(cors()); // Libera CORS para qualquer origem
 
-app.use(express.json())
+app.use(express.json());
+app.use('/', dataRoutes);
 
-app.use('/', dataRoutes)
+// Rota para servir o index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-app.listen(3000, ()=>{
-    console.log("Server rodando na porta 3000 em: http://localhost:3000")
-})
+app.listen(3000, () => {
+  console.log("Server rodando na porta 3000 em: http://localhost:3000");
+});
