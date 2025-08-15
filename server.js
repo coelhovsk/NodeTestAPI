@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import dataRoutes from './routes/router.js';
+import { router as dataRoutes } from './routes/router.js';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
